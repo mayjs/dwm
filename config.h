@@ -36,6 +36,7 @@ static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
+    { "Tilda",    NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -65,13 +66,20 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+// run rofi wherever the mouse is
 static const char *dmenucmd[] = { "rofi", "-combi-modi", "window,drun", "-show", "combi", "-modi", "combi"};
 static const char *termcmd[]  = { "st", NULL };
+
+static void cmaSpawn(const Arg *arg) {
+    const Arg cmarg = {0};
+    centerMouse(&cmarg);
+    spawn(arg);
+}
 
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+	{ MODKEY,                       XK_d,      cmaSpawn,       {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -94,6 +102,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 	{ MODKEY,                       XK_s,      focusmon,       {.i = +1 } },
+	{ MODKEY,                       XK_c,      centerMouse,    {0} },
 	{ MODKEY|ShiftMask,             XK_s,      tagmon,         {.i = +1 } },
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)

@@ -173,6 +173,7 @@ static void arrangemon(Monitor *m);
 static void attach(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
+static void centerMouse(const Arg *arg);
 static void checkotherwm(void);
 static void cleanup(void);
 static void cleanupmon(Monitor *mon);
@@ -222,7 +223,6 @@ static void resizemouse(const Arg *arg);
 static void resizerequest(XEvent *e);
 static void restack(Monitor *m);
 static void run(void);
-static void runAutostart(void);
 static void scan(void);
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
 static void sendmon(Client *c, Monitor *m);
@@ -491,6 +491,11 @@ buttonpress(XEvent *e)
 		if (click == buttons[i].click && buttons[i].func && buttons[i].button == ev->button
 		&& CLEANMASK(buttons[i].mask) == CLEANMASK(ev->state))
 			buttons[i].func(click == ClkTagBar && buttons[i].arg.i == 0 ? &arg : &buttons[i].arg);
+}
+
+void
+centerMouse(const Arg *arg) {
+    XWarpPointer(dpy, None, root, 0, 0, 0, 0, selmon->mx + selmon->mw/2, selmon->my + selmon->mh/2);
 }
 
 void
@@ -2515,11 +2520,6 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
-void
-runAutostart(void) {
-    system("cd ~/.config/qtile/; ./autostart.sh");
-}
-
 int
 main(int argc, char *argv[])
 {
@@ -2538,7 +2538,6 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
-    // runAutostart(); // We currently omit this part since our autostart is handled by xinitrc.
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
