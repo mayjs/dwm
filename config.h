@@ -73,6 +73,7 @@ static const char *chromiumcmd[] = {"chromium"};
 static const char *exitcmd[] = {"killall", "run_loop.sh"};
 static const char *screenshot_windowcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u"};
 static const char *screenshot_fullcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\""};
+static const char *exitdialogcmd[] = {"/home/may/Utility/exit_dialog.sh"};
 
 static void cmaSpawn(const Arg *arg) {
     const Arg cmarg = {0};
@@ -122,6 +123,7 @@ static Key keys[] = {
 	{ MODKEY|ControlMask,           XK_r,      quit,           {0} },
     { MODKEY,                       XK_Print,  spawn,          {.v = screenshot_fullcmd} },
     { 0,                            XK_Print,  spawn,          {.v = screenshot_windowcmd} },
+    { MODKEY,                       XK_e,      spawn,          {.v = exitdialogcmd}},
 };
 
 /* button definitions */
