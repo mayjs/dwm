@@ -65,9 +65,6 @@ static const Layout layouts[] = {
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
 /* commands */
-static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-// run rofi wherever the mouse is
-static const char *dmenucmd[] = { "rofi", "-combi-modi", "window,drun", "-show", "combi", "-modi", "combi"};
 static const char *termcmd[]  = { "st", NULL };
 static const char *chromiumcmd[] = {"chromium"};
 static const char *exitcmd[] = {"killall", "run_loop.sh"};
@@ -75,16 +72,23 @@ static const char *screenshot_windowcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scro
 static const char *screenshot_fullcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\""};
 static const char *exitdialogcmd[] = {"/home/may/Utility/exit_dialog.sh"};
 
-static void cmaSpawn(const Arg *arg) {
-    const Arg cmarg = {0};
-    centerMouse(&cmarg);
-    spawn(arg);
+static void dmenuDesktop(const Arg *arg) {
+    char j4dmenuarg[256];
+    Arg sarg;
+
+    // Use j4-dmenu-desktop to quickly display a launcher for desktop files
+    snprintf(j4dmenuarg, 256, "--dmenu=dmenu -i -m \"%d\" -fn \"%s\" -nb \"%s\" -nf \"%s\" -sb \"%s\" -sf \"%s\"",
+		selmon->num, dmenufont, col_gray1, col_gray3, col_cyan, col_gray4);
+    char *j4cmd[] = { "j4-dmenu-desktop", j4dmenuarg, NULL };
+
+    sarg.v = j4cmd;
+    spawn(&sarg);
 }
 
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
-	{ MODKEY,                       XK_d,      cmaSpawn,       {.v = dmenucmd } },
+	{ MODKEY,                       XK_d,      dmenuDesktop,   {0} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_F1,     spawn,          {.v = chromiumcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
