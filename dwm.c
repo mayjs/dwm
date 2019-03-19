@@ -2599,8 +2599,23 @@ main(int argc, char *argv[])
 {
 	if (argc == 2 && !strcmp("-v", argv[1]))
 		die("dwm-"VERSION);
+    else if (argc >= 2 && !strcmp("--dmenu", argv[1])) {
+        int i;
+        int defaultArgCount = sizeof(dmenuargs) / sizeof(dmenuargs[0]);
+        char *dmargs[defaultArgCount+argc-1];
+        for(i=0; i < defaultArgCount; i++) {
+            dmargs[i] = strdup(dmenuargs[i]);
+        }
+        for(i=0; i<argc-2; i++) {
+            dmargs[defaultArgCount+i] = argv[i+2];
+        }
+        dmargs[defaultArgCount+argc-2] = NULL;
+        if(execv(dmargs[0], dmargs) == -1) {
+            perror("Exec dmenu");
+        }
+    }
 	else if (argc != 1)
-		die("usage: dwm [-v]");
+		die("usage: dwm [-v|--dmenu]");
 	if (!setlocale(LC_CTYPE, "") || !XSupportsLocale())
 		fputs("warning: no locale support\n", stderr);
 	if (!(dpy = XOpenDisplay(NULL)))

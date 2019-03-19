@@ -64,13 +64,14 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
+const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4 };
 /* commands */
 static const char *termcmd[]  = { "st", NULL };
-static const char *chromiumcmd[] = {"chromium"};
-static const char *exitcmd[] = {"killall", "run_loop.sh"};
-static const char *screenshot_windowcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u"};
-static const char *screenshot_fullcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\""};
-static const char *exitdialogcmd[] = {"/home/may/Utility/exit_dialog.sh"};
+static const char *chromiumcmd[] = {"chromium", NULL};
+static const char *exitcmd[] = {"killall", "run_loop.sh", NULL};
+static const char *screenshot_windowcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u", NULL};
+static const char *screenshot_fullcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\"", NULL};
+static const char *exitdialogcmd[] = {"/home/may/Utility/exit_dialog.sh", NULL};
 
 static void dmenuDesktop(const Arg *arg) {
     char j4dmenuarg[256];
