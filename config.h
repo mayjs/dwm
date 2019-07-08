@@ -18,7 +18,8 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 //static const char col_cyan[]        = "#005577";
-static const char col_cyan[]        = "#ce760a";
+//static const char col_cyan[]        = "#ce760a";
+static const char col_cyan[]        = "#61741B"; // Green
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
 	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
@@ -48,8 +49,8 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "[M]",      monocle },
-    { "[][]",     deck },
 	{ "[]=",      tile },    /* first entry is default */
+    { "[][]",     deck },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 };
 
@@ -66,13 +67,16 @@ static const Layout layouts[] = {
 
 const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4 };
 /* commands */
-static const char *termcmd[]  = { "st", NULL };
-static const char *chromiumcmd[] = {"chromium", NULL};
-static const char *exitcmd[] = {"killall", "run_loop.sh", NULL};
-static const char *screenshot_windowcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u", NULL};
-static const char *screenshot_fullcmd[] = {"scrot", "%d.%m.%Y-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\"", NULL};
-static const char *exitdialogcmd[] = {"/home/may/Utility/exit_dialog.sh", NULL};
-static const char *windowswitchercmd[] = {"/home/may/Utility/window_switcher.sh", NULL};
+static const char *termcmd[]              = { "urxvt", NULL };
+static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
+static const char *chromiumcmd[]          = {"chromium", NULL};
+static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
+static const char *screenshot_windowcmd[] = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u", NULL};
+static const char *screenshot_fullcmd[]   = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\"", NULL};
+static const char *exitdialogcmd[]        = {"/home/may/Utility/exit_dialog.sh", NULL};
+static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.sh", NULL};
+static const char *openfilecmd[]          = {"/home/may/Utility/open_file.sh", NULL};
+static const char *backlightcmd[]         = {"/home/may/Utility/backlight_menu.sh", NULL};
 
 static void dmenuDesktop(const Arg *arg) {
     char j4dmenuarg[256];
@@ -91,7 +95,8 @@ static void dmenuDesktop(const Arg *arg) {
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      dmenuDesktop,   {0} },
-	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
+	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = samecwdterm } },
+	{ MODKEY|ShiftMask|ControlMask, XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_F1,     spawn,          {.v = chromiumcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -131,6 +136,8 @@ static Key keys[] = {
     { 0,                            XK_Print,  spawn,          {.v = screenshot_windowcmd} },
     { MODKEY,                       XK_e,      spawn,          {.v = exitdialogcmd}},
     { MODKEY,                       XK_w,      spawn,          {.v = windowswitchercmd}},
+    { MODKEY,                       XK_o,      spawn,          {.v = openfilecmd}},
+    { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = backlightcmd}},
 };
 
 /* button definitions */
