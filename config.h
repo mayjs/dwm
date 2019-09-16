@@ -69,7 +69,7 @@ const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1
 /* commands */
 static const char *termcmd[]              = { "urxvt", NULL };
 static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
-static const char *chromiumcmd[]          = {"chromium", NULL};
+static const char *chromiumcmd[]          = {"firefox", NULL};
 static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
 static const char *screenshot_windowcmd[] = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u", NULL};
 static const char *screenshot_fullcmd[]   = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\"", NULL};
