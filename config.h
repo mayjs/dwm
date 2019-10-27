@@ -35,9 +35,11 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
+	// { "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	// { "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },
     // { "Tilda",    NULL,       NULL,       0,            1,           -1 },
+    { "Thunderbird", NULL,       NULL,       1 << 8,       0,           -1 },
+    { "kitty",       "float",    NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -71,8 +73,9 @@ static const char *termcmd[]              = { "urxvt", NULL };
 static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
 static const char *chromiumcmd[]          = {"firefox", NULL};
 static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
-static const char *screenshot_windowcmd[] = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Window Screenshot taken\" \"$f\"", "-u", NULL};
-static const char *screenshot_fullcmd[]   = {"scrot", "%Y.%m.%d-%H:%M-$wx$h_scrot.png", "-e", "mv $f ~/Pictures/Screenshots; notify-send \"Screenshot taken\" \"$f\"", NULL};
+static const char *screenshot_selcmd[]    = {"/home/may/Utility/screenshot.sh", "selection", NULL};
+static const char *screenshot_wincmd[]    = {"/home/may/Utility/screenshot.sh", "window", NULL};
+static const char *screenshot_choocmd[]   = {"/home/may/Utility/screenshot.sh", NULL};
 static const char *exitdialogcmd[]        = {"/home/may/Utility/exit_dialog.sh", NULL};
 static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.sh", NULL};
 static const char *openfilecmd[]          = {"/home/may/Utility/open_file.sh", NULL};
@@ -132,8 +135,9 @@ static Key keys[] = {
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ControlMask,           XK_q,      spawn,          {.v = exitcmd} },
 	{ MODKEY|ControlMask,           XK_r,      quit,           {0} },
-    { MODKEY,                       XK_Print,  spawn,          {.v = screenshot_fullcmd} },
-    { 0,                            XK_Print,  spawn,          {.v = screenshot_windowcmd} },
+    { MODKEY,                       XK_Print,  spawn,          {.v = screenshot_selcmd} },
+    { 0,                            XK_Print,  spawn,          {.v = screenshot_wincmd} },
+    { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenshot_choocmd} },
     { MODKEY,                       XK_e,      spawn,          {.v = exitdialogcmd}},
     { MODKEY,                       XK_w,      spawn,          {.v = windowswitchercmd}},
     { MODKEY,                       XK_o,      spawn,          {.v = openfilecmd}},
