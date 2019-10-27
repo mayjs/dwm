@@ -625,12 +625,19 @@ clientmessage(XEvent *e)
 			setfullscreen(c, (cme->data.l[0] == 1 /* _NET_WM_STATE_ADD    */
 				|| (cme->data.l[0] == 2 /* _NET_WM_STATE_TOGGLE */ && !c->isfullscreen)));
 	} else if (cme->message_type == netatom[NetActiveWindow]) {
-		if (c != selmon->sel && !c->isurgent) {
+		if (c != c->mon->sel && !c->isurgent) {
+    		Monitor *oldselmon = selmon;
+        	selmon = c->mon;
     		// TODO: Special rules where we dont autoswitch (e.g. floating windows)
     		Arg arg;
     		arg.ui = c->tags;
     		view(&arg);
-    		focus(c);
+    		if(selmon == oldselmon) {
+        		focus(c);
+    		} else {
+        		unfocus(c, 0);
+    		}
+    		selmon = oldselmon;
 			// seturgent(c, 1);
 		}
 	}
