@@ -69,13 +69,15 @@ static const Layout layouts[] = {
 
 const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4 };
 /* commands */
-static const char *termcmd[]              = { "urxvt", NULL };
 static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
-static const char *chromiumcmd[]          = {"firefox", NULL};
+static const char *browsercmd[]           = { "qutebrowser", NULL};
 static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
+
+/* Screenshot commands */
 static const char *screenshot_selcmd[]    = {"/home/may/Utility/screenshot.sh", "selection", NULL};
 static const char *screenshot_wincmd[]    = {"/home/may/Utility/screenshot.sh", "window", NULL};
 static const char *screenshot_choocmd[]   = {"/home/may/Utility/screenshot.sh", NULL};
+
 static const char *exitdialogcmd[]        = {"/home/may/Utility/exit_dialog.sh", NULL};
 static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.sh", NULL};
 static const char *openfilecmd[]          = {"/home/may/Utility/open_file.sh", NULL};
@@ -99,8 +101,7 @@ static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_d,      dmenuDesktop,   {0} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = samecwdterm } },
-	{ MODKEY|ShiftMask|ControlMask, XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_F1,     spawn,          {.v = chromiumcmd } },
+	{ MODKEY,                       XK_F1,     spawn,          {.v = browsercmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -151,7 +152,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
 	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
-	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
+	// { ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
 	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
