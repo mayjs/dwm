@@ -70,7 +70,7 @@ static const Layout layouts[] = {
 const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4 };
 /* commands */
 static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
-static const char *browsercmd[]           = { "qutebrowser", NULL};
+static const char *browsercmd[]           = { "firefox", NULL};
 static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
 
 /* Screenshot commands */
