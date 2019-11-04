@@ -83,6 +83,8 @@ static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.
 static const char *openfilecmd[]          = {"/home/may/Utility/open_file.sh", NULL};
 static const char *backlightcmd[]         = {"/home/may/Utility/backlight_menu.sh", NULL};
 
+static const char *toggleRedshiftcmd[]    = {"pkill", "-x", "-USR1", "redshift", NULL};
+
 static void dmenuDesktop(const Arg *arg) {
     char j4dmenuarg[256];
     Arg sarg;
@@ -143,6 +145,7 @@ static Key keys[] = {
     { MODKEY,                       XK_w,      spawn,          {.v = windowswitchercmd}},
     { MODKEY,                       XK_o,      spawn,          {.v = openfilecmd}},
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = backlightcmd}},
+    { MODKEY,                       XK_r,      spawn,          {.v = toggleRedshiftcmd}},
 };
 
 /* button definitions */
