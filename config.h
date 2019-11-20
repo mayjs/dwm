@@ -40,7 +40,7 @@ static const Rule rules[] = {
     // { "Tilda",    NULL,       NULL,       0,            1,           -1 },
     { "Thunderbird", NULL,       NULL,       1 << 8,       0,           -1 },
     { "kitty",       "float",    NULL,       0,            1,           -1 },
-    { NULL,          NULL,       "FLOATME_DWM", 0,         1,           -1 },
+    { "FLOATME_DWM", NULL,       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
@@ -78,6 +78,7 @@ static const char *exitcmd[]              = {"killall", "run_loop.sh", NULL};
 static const char *screenshot_selcmd[]    = {"/home/may/Utility/screenshot.sh", "selection", NULL};
 static const char *screenshot_wincmd[]    = {"/home/may/Utility/screenshot.sh", "window", NULL};
 static const char *screenshot_choocmd[]   = {"/home/may/Utility/screenshot.sh", NULL};
+static const char *screenshot_selshowcmd[]= {"/home/may/Utility/screenshot.sh", "sel_and_show", NULL};
 
 static const char *exitdialogcmd[]        = {"/home/may/Utility/exit_dialog.sh", NULL};
 static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.sh", NULL};
@@ -105,7 +106,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_d,      dmenuDesktop,   {0} },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = samecwdterm } },
 	{ MODKEY,                       XK_F1,     spawn,          {.v = browsercmd } },
+
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
+
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
@@ -116,6 +119,7 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
+
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[2]} },
@@ -125,9 +129,12 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
+
 	{ MODKEY,                       XK_s,      focusmon,       {.i = +1 } },
-	{ MODKEY,                       XK_c,      centerMouse,    {0} },
 	{ MODKEY|ShiftMask,             XK_s,      tagmon,         {.i = +1 } },
+
+	{ MODKEY,                       XK_c,      centerMouse,    {0} },
+
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
 	TAGKEYS(                        XK_3,                      2)
@@ -137,12 +144,16 @@ static Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
+
 	{ MODKEY|ControlMask,           XK_q,      spawn,          {.v = exitcmd} },
 	{ MODKEY|ControlMask,           XK_r,      quit,           {0} },
+    { MODKEY,                       XK_e,      spawn,          {.v = exitdialogcmd}},
+
     { MODKEY,                       XK_Print,  spawn,          {.v = screenshot_selcmd} },
     { 0,                            XK_Print,  spawn,          {.v = screenshot_wincmd} },
     { MODKEY|ShiftMask,             XK_Print,  spawn,          {.v = screenshot_choocmd} },
-    { MODKEY,                       XK_e,      spawn,          {.v = exitdialogcmd}},
+    { MODKEY|ControlMask,           XK_Print,  spawn,          {.v = screenshot_selshowcmd} },
+
     { MODKEY,                       XK_w,      spawn,          {.v = windowswitchercmd}},
     { MODKEY,                       XK_o,      spawn,          {.v = openfilecmd}},
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = backlightcmd}},
