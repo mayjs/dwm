@@ -40,7 +40,7 @@ static const Rule rules[] = {
     // { "Tilda",    NULL,       NULL,       0,            1,           -1 },
     { "Thunderbird", NULL,       NULL,       1 << 8,       0,           -1 },
     { "kitty",       "float",    NULL,       0,            1,           -1 },
-    { "FLOATME_DWM", NULL,       NULL,       0,            1,           -1 },
+    { NULL, "FLOATME_DWM",       NULL,       0,            1,           -1 },
 };
 
 /* layout(s) */
