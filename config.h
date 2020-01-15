@@ -1,4 +1,5 @@
 /* See LICENSE file for copyright and license details. */
+#include <X11/XF86keysym.h>
 
 /* appearance */
 static const unsigned int highlightline  = 1;    /* Use a line to highlight active monitor */
@@ -84,6 +85,7 @@ static const char *exitdialogcmd[]        = {"/home/may/Utility/exit_dialog.sh",
 static const char *windowswitchercmd[]    = {"/home/may/Utility/window_switcher.sh", NULL};
 static const char *openfilecmd[]          = {"/home/may/Utility/open_file.sh", NULL};
 static const char *backlightcmd[]         = {"/home/may/Utility/backlight_menu.sh", NULL};
+static const char *doanythingcmd[]        = {"/home/may/Utility/do_anything.sh", NULL};
 
 static const char *toggleRedshiftcmd[]    = {"pkill", "-x", "-USR1", "redshift", NULL};
 
@@ -100,6 +102,12 @@ static void dmenuDesktop(const Arg *arg) {
     spawn(&sarg);
 }
 
+
+static const char *upvol[]   = { "/usr/bin/pactl", "set-sink-volume", "0", "+5%",     NULL };
+static const char *downvol[] = { "/usr/bin/pactl", "set-sink-volume", "0", "-5%",     NULL };
+static const char *mutevol[] = { "/usr/bin/pactl", "set-sink-mute",   "0", "toggle",  NULL };
+
+/* Add to keys[] array. With 0 as modifier, you are able to use the keys directly. */
 #include "movestack.c"
 static Key keys[] = {
 	/* modifier                     key        function        argument */
@@ -161,6 +169,11 @@ static Key keys[] = {
     { MODKEY,                       XK_o,      spawn,          {.v = openfilecmd}},
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = backlightcmd}},
     { MODKEY,                       XK_r,      spawn,          {.v = toggleRedshiftcmd}},
+    { MODKEY,                       XK_a,      spawn,          {.v = doanythingcmd}},
+
+	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
+	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
+	{ 0,                       XF86XK_AudioRaiseVolume, spawn, {.v = upvol   } },
 };
 
 /* button definitions */
