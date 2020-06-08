@@ -14,17 +14,16 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "monospace:size=10" };
 static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-//static const char col_cyan[]        = "#005577";
-//static const char col_cyan[]        = "#ce760a";
-static const char col_cyan[]        = "#61741B"; // Green
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#61741B";
+static char selbgcolor[]            = "#61741B";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* tagging */
@@ -69,7 +68,7 @@ static const Layout layouts[] = {
 /* helper for spawning shell commands in the pre dwm-5.0 fashion */
 #define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
 
-const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4 };
+const char *dmenuargs[] = { "/usr/bin/dmenu", "-fn", dmenufont, "-nb", normbgcolor, "-nf", normfgcolor, "-sb", selbordercolor, "-sf", selfgcolor};
 /* commands */
 static const char *samecwdterm[]          = { "/home/may/Utility/spawn_terminal.sh", NULL };
 static const char *browsercmd[]           = { "firefox", NULL};
@@ -95,7 +94,7 @@ static void dmenuDesktop(const Arg *arg) {
 
     // Use j4-dmenu-desktop to quickly display a launcher for desktop files
     snprintf(j4dmenuarg, 256, "--dmenu=dmenu -i -m \"%d\" -fn \"%s\" -nb \"%s\" -nf \"%s\" -sb \"%s\" -sf \"%s\"",
-		selmon->num, dmenufont, col_gray1, col_gray3, col_cyan, col_gray4);
+		selmon->num, dmenufont, normbgcolor, normfgcolor, selbordercolor, selfgcolor);
     char *j4cmd[] = { "j4-dmenu-desktop", j4dmenuarg, NULL };
 
     sarg.v = j4cmd;
@@ -170,6 +169,8 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = backlightcmd}},
     { MODKEY,                       XK_r,      spawn,          {.v = toggleRedshiftcmd}},
     { MODKEY,                       XK_a,      spawn,          {.v = doanythingcmd}},
+
+	{ MODKEY,                       XK_F5,     xrdb,           {.v = NULL } },
 
 	{ 0,                       XF86XK_AudioLowerVolume, spawn, {.v = downvol } },
 	{ 0,                       XF86XK_AudioMute, spawn, {.v = mutevol } },
